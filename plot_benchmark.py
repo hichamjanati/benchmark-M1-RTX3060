@@ -6,7 +6,7 @@ import glob
 
 data = []
 for filename in glob.glob('data/*.csv'):
-    df = pd.read_csv(filename)
+    df = pd.read_csv(filename, index_col=0)
     data.append(df)
 data = pd.concat(data)
 data["Device"] = data.machine + " | " + data.device_name

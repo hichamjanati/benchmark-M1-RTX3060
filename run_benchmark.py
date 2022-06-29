@@ -29,7 +29,7 @@ if torch.cuda.is_available():
 
 if __name__ == "__main__":
     n_runs = 10
-    ns = [2, 5, 20, 100, 200, 500, 1000, 2000, 3000]
+    ns = [10, 50, 100, 250, 500, 1000, 1500, 2000, 3000]
 
     data = []
     for device, device_name in zip(devices, device_names):
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         for jj, n in enumerate(ns):
             for run in range(n_runs):
                 times[run, jj] = f(n, device)
-        times = pd.DataFrame(times)
+        times = pd.DataFrame(times, columns=ns)
         times["device"] = device
         times["machine"] = machine_name
         times["device_name"] = device_name
