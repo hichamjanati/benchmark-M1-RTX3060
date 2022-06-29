@@ -33,6 +33,7 @@ if __name__ == "__main__":
 
     data = []
     for device, device_name in zip(devices, device_names):
+        print(f"Running {device_name} ... ")
         times = np.empty((n_runs, len(ns)))
         for jj, n in enumerate(ns):
             for run in range(n_runs):
