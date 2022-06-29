@@ -29,7 +29,7 @@ if torch.cuda.is_available():
 
 if __name__ == "__main__":
     n_runs = 10
-    ns = [5, 20, 100, 200]
+    ns = [2, 5, 20, 100, 200, 500, 1000, 2000, 3000]
 
     data = []
     for device, device_name in zip(devices, device_names):
