@@ -24,8 +24,8 @@ else:
 
 
 if __name__ == "__main__":
-    n_runs = 10
-    ns = [5, 20, 100, 500, 1000, 2000, 3000]
+    n_runs = 20
+    ns = [5, 20, 100, 500, 750, 1000, 1500, 2000, 3000, 3500, 4000, 4500, 5000]
     scores = dict()
 
     for device, device_name in zip(devices, device_names):
