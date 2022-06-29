@@ -1,8 +1,11 @@
+from platform import machine
 import torch
-import pickle
+import pandas as pd
 import numpy as np
 from time import time
 
+
+torch.manual_seed(42)
 
 def f(n, device):
     t = time()
@@ -13,30 +16,35 @@ def f(n, device):
 
 devices = ["cpu"]
 
+machine_name = input("Enter a name for your machine:\n")
+cpu_name = input("Enter a name for your CPU:\n")
+device_names = [cpu_name]
+
 if torch.cuda.is_available():
     torch.cuda.init()
+    gpu_name = input("Enter a name for your GPU:\n")
     devices.append("cuda:0")
-    device_names = ["AMD Ryzen 7 5700", "RTX 3060"]
-    filename = 'victus'
-else:
-    device_names = ["M1"]
-    filename = 'macbook'
+    device_names.append(gpu_name)
 
 
 if __name__ == "__main__":
-    n_runs = 20
-    ns = [5, 20, 100, 500, 750, 1000, 1500, 2000, 3000, 3500, 4000, 4500, 5000]
-    scores = dict()
+    n_runs = 10
+    ns = [5, 20, 100, 200]
 
+    data = []
     for device, device_name in zip(devices, device_names):
         times = np.empty((n_runs, len(ns)))
         for jj, n in enumerate(ns):
             for run in range(n_runs):
                 times[run, jj] = f(n, device)
-        scores[device_name] = times
-    
-    with open("scores-%s.pkl" % filename, 'wb') as ff:
-        pickle.dump(scores, ff)
+        times = pd.DataFrame(times)
+        times["device"] = device
+        times["machine"] = machine_name
+        times["device_name"] = device_name
+        data.append(times)
+    df = pd.concat(data)
+    df = df.melt(["device", "machine", "device_name"], var_name="n", value_name="time")
+    df.to_csv("data/%s.csv" % machine_name)
     
 
 
