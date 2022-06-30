@@ -26,6 +26,12 @@ if torch.cuda.is_available():
     devices.append("cuda:0")
     device_names.append(gpu_name)
 
+if torch.backends.mps.is_available():
+    torch.ones(1).to("mps")
+    mps_name = "M1 + MPS acceleration"
+    devices.append("mps")
+    device_names.append(mps_name)
+
 
 if __name__ == "__main__":
     n_runs = 10
